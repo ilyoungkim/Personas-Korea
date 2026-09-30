@@ -1,0 +1,13 @@
+[project]
+name = "personas-korea"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "huggingface-hub>=2.0.0",
+    "mcp>=1.9.0,<2",
+    "pandas>=3.0.6",
+    "psycopg[binary]>=3.3.6",
+    "pyarrow>=25.0.1",
+]

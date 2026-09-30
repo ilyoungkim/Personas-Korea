@@ -1,0 +1,109 @@
+# Korea Persona Intelligence — 로컬(192.168.x.x) 전용 배포
+# 기존 사용 포트(5432/8080/5000 등)를 피해 커스텀 포트 사용
+name: persona
+
+services:
+  postgres:
+    image: postgres:18
+    container_name: persona-postgres
+    environment:
+      POSTGRES_USER: persona
+      POSTGRES_PASSWORD: persona
+      POSTGRES_DB: persona
+    ports:
+      - "15432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql
+      - ./sql:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U persona -d persona"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    restart: unless-stopped
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: persona-qdrant
+    ports:
+      - "16333:6333"
+      - "16334:6334"
+    volumes:
+      - qdrant_data:/qdrant/storage
+    restart: unless-stopped
+
+  mcp:
+    build:
+      context: .
+      dockerfile: mcp/Dockerfile
+    container_name: persona-mcp
+    environment:
+      PG_DSN: postgresql://persona:persona@postgres:5432/persona
+      QDRANT_URL: http://qdrant:6333
+      HF_HOME: /cache
+    volumes:
+      - embed_cache:/cache
+    ports:
+      - "19000:19000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      qdrant:
+        condition: service_started
+    restart: unless-stopped
+
+  dashboard:
+    build:
+      context: ./dashboard
+      dockerfile: Dockerfile
+    container_name: persona-dashboard
+    environment:
+      PG_DSN: postgresql://persona:persona@postgres:5432/persona
+      MCP_URL: http://mcp:19000/mcp
+    ports:
+      - "18080:18080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+
+  etl:
+    build:
+      context: .
+      dockerfile: etl/Dockerfile
+    container_name: persona-etl
+    profiles: ["etl"]
+    environment:
+      PG_DSN: postgresql://persona:persona@postgres:5432/persona
+      DATA_DIR: /data/parquet
+    volumes:
+      - ./data:/data:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: "no"
+
+  embed:
+    build:
+      context: .
+      dockerfile: embed/Dockerfile
+    container_name: persona-embed
+    profiles: ["embed"]
+    environment:
+      PG_DSN: postgresql://persona:persona@postgres:5432/persona
+      QDRANT_URL: http://qdrant:6333
+      EMBED_N: "10000"
+      HF_HOME: /cache
+    volumes:
+      - embed_cache:/cache
+    depends_on:
+      postgres:
+        condition: service_healthy
+      qdrant:
+        condition: service_started
+    restart: "no"
+
+volumes:
+  postgres_data:
+  qdrant_data:
+  embed_cache:

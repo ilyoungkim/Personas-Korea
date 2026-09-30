@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "persona": {
+      "type": "streamable-http",
+      "url": "http://192.168.31.253:19000/mcp",
+      "name": "Korea Persona Intelligence",
+      "description": "100만 한국 합성 페르소나 데이터 질의 (검색/집계/의미검색/비교)"
+    }
+  }
+}
