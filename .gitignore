@@ -13,10 +13,9 @@ wheels/
 key.txt
 
 # 대용량 데이터 / 캐시
-data/
+# (원본 parquet은 Git LFS로 업로드, CSV 파생본과 캐시는 제외)
 .hf_cache/
 *.csv
-*.parquet
 
 # Node
 dashboard/node_modules/
