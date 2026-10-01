@@ -186,4 +186,27 @@ docker compose down -v     # 볼륨(데이터)까지 삭제
 
 ## 라이선스
 
-데이터셋: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) (`nvidia/Nemotron-Personas-Korea`)
+### 데이터셋
+
+본 프로젝트가 사용하는 `nvidia/Nemotron-Personas-Korea` 데이터셋은
+[크리에이티브 커먼즈 저작자표시 4.0 국제 라이선스 (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/)에 따라 제공됩니다.
+상업적·비상업적 용도 모두 자유롭게 사용할 수 있으나, **저작자 표시(Attribution)**가 필요합니다.
+
+- 데이터셋: [nvidia/Nemotron-Personas-Korea](https://huggingface.co/datasets/nvidia/Nemotron-Personas-Korea)
+- 라이선스: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
+- 저작자: NVIDIA Corporation
+
+```bibtex
+@software{nvidia/Nemotron-Personas-Korea,
+  author = {Kim, Hyunwoo and Ryu, Jihyeon and Lee, Jinho and Ryu, Hyungon and Praveen, Kiran and Prayaga, Shyamala and Thadaka, Kirit and Jennings, Will and Sadeghi, Bardiya and Sharabiani, Ashton and Choi, Yejin and Meyer, Yev},
+  title = {Nemotron-Personas-Korea: Synthetic Personas Aligned to Real-World Distributions for Korea},
+  month = {April},
+  year = {2026},
+  url = {https://huggingface.co/datasets/nvidia/Nemotron-Personas-Korea}
+}
+```
+
+### 프로그램 (코드)
+
+본 프로젝트의 소스 코드는 [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0)에 따라 배포됩니다.
+전체 내용은 [LICENSE](LICENSE) 파일을 참조하세요.
