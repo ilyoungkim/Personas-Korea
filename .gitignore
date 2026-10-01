@@ -12,10 +12,11 @@ wheels/
 # API keys (실제 키는 절대 커밋 금지)
 key.txt
 
-# 대용량 데이터 / 캐시
-# (원본 parquet은 Git LFS로 업로드, CSV 파생본과 캐시는 제외)
+# 대용량 데이터 / 캐시 (원본 데이터는 setup_data.py로 재다운로드)
+data/
 .hf_cache/
 *.csv
+*.parquet
 
 # Node
 dashboard/node_modules/
